@@ -28,6 +28,9 @@
       box-shadow: 0 10px 20px rgba(0,0,0,0.2);
       border-radius: 10px;
       z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .flap {
@@ -108,20 +111,20 @@
       position: absolute;
       color: #f06292;
       font-size: 24px;
-      animation: floatUp 8s linear infinite;
+      animation: floatDown 8s linear infinite;
       opacity: 0;
     }
 
-    @keyframes floatUp {
+    @keyframes floatDown {
       0% {
-        transform: translateY(0) scale(1);
+        transform: translateY(-10vh) scale(1);
         opacity: 0;
       }
       10% {
         opacity: 0.7;
       }
       100% {
-        transform: translateY(-120vh) scale(1.5);
+        transform: translateY(120vh) scale(1.5);
         opacity: 0;
       }
     }
@@ -153,7 +156,7 @@
 </head>
 <body>
   <!-- Music -->
-  <audio id="bg-music" src="https://media1.vocaroo.com/mp3/15dR1es6HtzC" loop muted></audio>
+  <audio id="bg-music" src="https://media1.vocaroo.com/mp3/15dR1es6HtzC" loop></audio>
 
   <!-- Envelope -->
   <div class="envelope" id="envelope">
@@ -192,21 +195,21 @@ Once again my Boss Madam Baby, HAPPY MONTHSARYYY. I LOVE YOUUUU.
     envelope.addEventListener('click', () => {
       envelope.classList.toggle('open');
 
-      // Play music
+      // Play music after user interaction
       if (music.paused) {
-        music.muted = false;
         music.play().catch(err => console.log('Autoplay blocked:', err));
       }
 
       // Show music control button
       musicBtn.style.display = 'block';
 
-      // Floating hearts
+      // Create floating hearts
       for (let i = 0; i < 50; i++) {
         const heart = document.createElement('span');
         heart.textContent = '💜';
         heart.style.left = Math.random() * 100 + '%';
         heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+        heart.style.top = '-30px'; // start above viewport
         heart.style.animationDelay = Math.random() * 3 + 's';
         hearts.appendChild(heart);
         setTimeout(() => heart.remove(), 8000);
