@@ -15,19 +15,19 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
       position: relative;
     }
 
     .envelope {
-      width: 300px;
-      height: 200px;
+      width: 400px;
+      height: 250px;
       background: #ab47bc;
       position: relative;
       cursor: pointer;
       transition: transform 1s ease;
       box-shadow: 0 10px 20px rgba(0,0,0,0.2);
       border-radius: 10px;
+      z-index: 2;
     }
 
     .flap {
@@ -36,9 +36,9 @@
       left: 0;
       width: 0;
       height: 0;
-      border-left: 150px solid transparent;
-      border-right: 150px solid transparent;
-      border-bottom: 100px solid #ce93d8;
+      border-left: 200px solid transparent;
+      border-right: 200px solid transparent;
+      border-bottom: 125px solid #ce93d8;
       transform-origin: top center;
       transition: transform 1s ease;
       z-index: 3;
@@ -46,19 +46,20 @@
 
     .card {
       background-color: white;
-      width: 260px;
-      height: 160px;
+      width: 360px;
+      height: 220px;
       padding: 1rem;
       border-radius: 15px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
       position: absolute;
-      top: 20px;
+      top: 15px;
       left: 20px;
-      z-index: 2;
+      z-index: 4;
       text-align: center;
       opacity: 0;
       transform: translateY(20px);
       transition: all 1s ease;
+      overflow-y: auto;
     }
 
     .envelope.open .flap {
@@ -67,27 +68,29 @@
 
     .envelope.open .card {
       opacity: 1;
-      transform: translateY(-200px);
+      transform: translateY(-250px);
     }
 
     .title {
       font-family: 'Brush Script MT', cursive;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       color: #8e24aa;
       margin-bottom: 0.5rem;
     }
 
     .message {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: #333;
       line-height: 1.4;
       white-space: pre-wrap;
+      text-align: left;
     }
 
     .heart {
       font-size: 1.5rem;
       margin-top: 0.8rem;
       color: #ba68c8;
+      text-align: center;
     }
 
     .floating-hearts {
@@ -98,7 +101,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      z-index: 0;
+      z-index: 1;
     }
 
     .floating-hearts span {
@@ -123,6 +126,24 @@
       }
     }
 
+    /* Music Button */
+    #music-btn {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      background-color: #ba68c8;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+    }
+
     @media (max-width: 480px) {
       .envelope {
         transform: scale(0.9);
@@ -131,26 +152,26 @@
   </style>
 </head>
 <body>
-  <!-- Background music -->
+  <!-- Music -->
   <audio id="bg-music" src="https://media1.vocaroo.com/mp3/15dR1es6HtzC" loop muted></audio>
 
-  <!-- Envelope container -->
+  <!-- Envelope -->
   <div class="envelope" id="envelope">
     <div class="flap"></div>
     <div class="card">
       <div class="title">To My Beautiful Boss Madam Baby,</div>
       <div class="message">
-        HIIII MY BABYYYY GOODMORNINGGGGG,
+HIIII MY BABYYYY GOODMORNINGGGGG,
 
-        First of all I wanna say Thank you, thank you for staying with me for this long, and sa pagtitiis sa kakulitan and pagiging pasaway ko. I know sometimes sumosobra na po ako and hindi ko nare-realize agad, but trust me po I never intended any harm or whatsoever.
+First of all I wanna say Thank you, thank you for staying with me for this long, and sa pagtitiis sa kakulitan and pagiging pasaway ko. I know sometimes sumosobra na po ako and hindi ko nare-realize agad, but trust me po I never intended any harm or whatsoever.
 
-        And I also wanna say na I'm so grateful to have you, and I want you to know that I want to spend the rest of my life with you, my baby. So I hope you never get tired of me, my baby.
+And I also wanna say na I'm so grateful to have you, and I want you to know that I want to spend the rest of my life with you, my baby. So I hope you never get tired of me, my baby.
 
-        And yeah I wanna say HAPPY MONTHSARYYY MY BOSS MADAM BABY!!! I LOVE YOU SOO MUCHHH.
+And yeah I wanna say HAPPY MONTHSARYYY MY BOSS MADAM BABY!!! I LOVE YOU SOO MUCHHH.
 
-        I promise po after natin mabili yung pinag-iipunan ko, babawi me. I know you don't like promises but I'm promising this one. Sorry if I can't give much today, but I hope we have a great day later and no fights please ☹️.
+I promise po after natin mabili yung pinag-iipunan ko, babawi me. I know you don't like promises but I'm promising this one. Sorry if I can't give much today, but I hope we have a great day later and no fights please ☹️.
 
-        Once again my Boss Madam Baby, HAPPY MONTHSARYYY. I LOVE YOUUUU.
+Once again my Boss Madam Baby, HAPPY MONTHSARYYY. I LOVE YOUUUU.
       </div>
       <div class="heart">💜</div>
     </div>
@@ -159,21 +180,28 @@
   <!-- Floating hearts -->
   <div class="floating-hearts" id="hearts"></div>
 
+  <!-- Music Control Button -->
+  <button id="music-btn">🔊</button>
+
   <script>
     const envelope = document.getElementById('envelope');
     const music = document.getElementById('bg-music');
     const hearts = document.getElementById('hearts');
+    const musicBtn = document.getElementById('music-btn');
 
     envelope.addEventListener('click', () => {
       envelope.classList.toggle('open');
 
-      // Play music on interaction
+      // Play music
       if (music.paused) {
         music.muted = false;
         music.play().catch(err => console.log('Autoplay blocked:', err));
       }
 
-      // Add floating hearts
+      // Show music control button
+      musicBtn.style.display = 'block';
+
+      // Floating hearts
       for (let i = 0; i < 50; i++) {
         const heart = document.createElement('span');
         heart.textContent = '💜';
@@ -181,12 +209,20 @@
         heart.style.fontSize = Math.random() * 20 + 20 + 'px';
         heart.style.animationDelay = Math.random() * 3 + 's';
         hearts.appendChild(heart);
-
-        // Remove heart after animation
-        setTimeout(() => {
-          heart.remove();
-        }, 8000);
+        setTimeout(() => heart.remove(), 8000);
       }
+    });
+
+    let isPlaying = true;
+    musicBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        music.pause();
+        musicBtn.textContent = '🔇';
+      } else {
+        music.play();
+        musicBtn.textContent = '🔊';
+      }
+      isPlaying = !isPlaying;
     });
   </script>
 </body>
