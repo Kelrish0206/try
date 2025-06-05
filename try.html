@@ -71,7 +71,7 @@
 
     .envelope.open .card {
       opacity: 1;
-      transform: translateY(-250px);
+      transform: translateY(-50px);
     }
 
     .title {
@@ -156,7 +156,7 @@
 </head>
 <body>
   <!-- Music -->
-  <audio id="bg-music" src="https://media1.vocaroo.com/mp3/15dR1es6HtzC" loop></audio>
+  <audio id="bg-music" src="https://media1.vocaroo.com/mp3/15dR1es6HtzC" loop muted></audio>
 
   <!-- Envelope -->
   <div class="envelope" id="envelope">
@@ -195,24 +195,24 @@ Once again my Boss Madam Baby, HAPPY MONTHSARYYY. I LOVE YOUUUU.
     envelope.addEventListener('click', () => {
       envelope.classList.toggle('open');
 
-      // Play music after user interaction
       if (music.paused) {
+        music.muted = false;  // unmute on user interaction
         music.play().catch(err => console.log('Autoplay blocked:', err));
       }
 
-      // Show music control button
       musicBtn.style.display = 'block';
 
-      // Create floating hearts
-      for (let i = 0; i < 50; i++) {
-        const heart = document.createElement('span');
-        heart.textContent = '💜';
-        heart.style.left = Math.random() * 100 + '%';
-        heart.style.fontSize = Math.random() * 20 + 20 + 'px';
-        heart.style.top = '-30px'; // start above viewport
-        heart.style.animationDelay = Math.random() * 3 + 's';
-        hearts.appendChild(heart);
-        setTimeout(() => heart.remove(), 8000);
+      if (envelope.classList.contains('open')) {
+        for (let i = 0; i < 50; i++) {
+          const heart = document.createElement('span');
+          heart.textContent = '💜';
+          heart.style.left = Math.random() * 100 + '%';
+          heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+          heart.style.top = '-30px';
+          heart.style.animationDelay = Math.random() * 3 + 's';
+          hearts.appendChild(heart);
+          setTimeout(() => heart.remove(), 8000);
+        }
       }
     });
 
